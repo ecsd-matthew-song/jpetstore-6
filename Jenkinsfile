@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'mvn clean install'
+        sh 'echo start maven '
       }
     }
     stage('SonarQube test') {
