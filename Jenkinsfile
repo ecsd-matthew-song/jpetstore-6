@@ -11,7 +11,7 @@ pipeline {
         sonarqube_URL = 'http://34.243.140.71:9000'
       }
       steps {
-        sh 'mvn sonar:sonar -url ${sonarQube_URL}'
+        sh 'echo mvn sonar:sonar -url ${sonarQube_URL}'
       }
     }
     stage('Build validation') {
