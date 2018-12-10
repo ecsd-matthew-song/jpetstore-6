@@ -5,6 +5,13 @@ pipeline {
       steps {
         sh 'echo start maven '
       }
+      
+          stage('Build 2') {
+      steps {
+        sh 'echo start maven '
+      }
+      
+      
     }
     stage('SonarQube test') {
       environment {
