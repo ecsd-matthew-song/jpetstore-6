@@ -14,7 +14,7 @@ pipeline {
             stage('SonarQube Test') {
             steps {
               echo 'Initiating SonarQube test'
-              sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.10.18:8081 -Dlicense.skip=true'
+              sh 'mvn sonar:sonar -Dsonar.host.url=http://34.246.195.13:8081 -Dlicense.skip=true'
               echo 'SonarQube test Complete'
             }
           }

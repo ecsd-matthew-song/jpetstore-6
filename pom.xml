@@ -29,7 +29,7 @@
 
   <groupId>org.mybatis</groupId>
   <artifactId>jpetstore</artifactId>
-  <version>6.0.6-SNAPSHOT</version>
+  <version>6.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
 
   <name>JPetStore Demo 6</name>
