@@ -3,33 +3,72 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'echo start maven '
-      }
-    }     
-          stage('Build 2') {
-      steps {
-        sh 'echo start maven '
-      }
-      
-      
-    }
-    stage('SonarQube test') {
-      environment {
-        sonarqube_URL = 'http://34.243.140.71:9000'
-      }
-      steps {
-        sh 'echo mvn sonar:sonar -url ${sonarQube_URL}'
+        echo 'Initiating maven build'
+        sh 'mvn clean install -Dlicense.skip=true'
+        echo 'Maven build complete'
       }
     }
-    stage('Build validation') {
+
+    stage('Testing') {
+          parallel {
+            stage('SonarQube Test') {
+            steps {
+              echo 'Initiating SonarQube test'
+              sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.10.18:8081 -Dlicense.skip=true'
+              echo 'SonarQube test Complete'
+            }
+          }
+
+            stage('Print Tester credentials') {
+              steps {
+                sleep 10
+                echo "The tester is ${TESTER}"
+              }
+            }
+            stage('Print Build Number') {
+              steps {
+                sleep 20
+                echo "This is build number ${BUILD_ID}"
+              }
+            }
+          }
+        }
+
+    stage('JFrog Push') {
       steps {
-        input(message: 'Validate build', ok: 'Yes')
+        echo 'Starting JFrog push'
+        script {
+          def server = Artifactory.server "artifactory"
+          def buildInfo = Artifactory.newBuildInfo()
+          def rtMaven = Artifactory.newMavenBuild()
+
+          rtMaven.tool = 'maven'
+          rtMaven.deployer server: server, releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local'
+
+          buildInfo = rtMaven.run pom: 'pom.xml', goals: "clean install -Dlicense.skip=true"
+          buildInfo.env.capture = true
+          buildInfo.name = 'jpetstore-6'
+          server.publishBuildInfo buildInfo
+        }
+echo 'JFrog push complete'
+    }
+}
+    stage('Deploy prompt') {
+      steps {
+        input 'Deploy to Production?'
       }
     }
-    stage('Packaging') {
+    stage('Deploy') {
       steps {
-        sh 'echo push to JFROG'
+        echo 'Initiating Deployment'
+        echo 'Deployment Complete'
       }
     }
+  }
+  tools {
+    maven 'maven'
+  }
+  environment {
+    TESTER = 'placeholder'
   }
 }
