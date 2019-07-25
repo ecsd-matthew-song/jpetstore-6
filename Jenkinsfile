@@ -11,7 +11,7 @@ pipeline {
       parallel {
         stage('Sonar Test') {
           steps {
-            sh 'mvn sonar:sonar -Dsonar.host.url=http://54.255.241.23:8081 -Dlicense.skip=true'
+            sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.10.18:8081 -Dlicense.skip=true'
           }
         }
         stage('Print tester credenitals') {
