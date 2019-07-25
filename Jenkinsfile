@@ -37,6 +37,7 @@ pipeline {
     stage('JFrog Push') {
       steps {
         echo 'Starting JFrog push'
+        echo 'http://34.249.111.76:8081'
         script {
           def server = Artifactory.server "artifactory"
           def buildInfo = Artifactory.newBuildInfo()
