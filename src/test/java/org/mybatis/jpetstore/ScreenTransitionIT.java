@@ -15,43 +15,48 @@
  */
 package org.mybatis.jpetstore;
 
+import static com.codeborne.selenide.Browsers.HTMLUNIT;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.value;
+import static com.codeborne.selenide.Configuration.baseUrl;
+import static com.codeborne.selenide.Configuration.browser;
+import static com.codeborne.selenide.Configuration.timeout;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.title;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.junit.ScreenShooter;
-import org.junit.After;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
-import org.openqa.selenium.By;
+import com.codeborne.selenide.junit5.ScreenShooterExtension;
 
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Configuration.*;
-import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.WebDriverRunner.*;
-import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.openqa.selenium.By;
 
 /**
  * Integration tests for screen transition.
  *
  * @author Kazuki Shimizu
  */
-public class ScreenTransitionIT {
+@ExtendWith(ScreenShooterExtension.class)
+class ScreenTransitionIT {
 
-  @Rule
-  public ScreenShooter screenShooter = ScreenShooter.failedTests();
-
-  @BeforeClass
-  public static void setupSelenide() {
+  @BeforeAll
+  static void setupSelenide() {
     browser = HTMLUNIT;
     timeout = TimeUnit.SECONDS.toMillis(10);
     baseUrl = "http://localhost:8080/jpetstore";
   }
 
-  @After
-  public void logout() {
+  @AfterEach
+  void logout() {
     SelenideElement element = $(By.linkText("Sign Out"));
     if (element.exists()) {
       element.click();
@@ -59,7 +64,7 @@ public class ScreenTransitionIT {
   }
 
   @Test
-  public void testOrder() {
+  void testOrder() {
 
     // Open the home page
     open("/");
@@ -145,7 +150,7 @@ public class ScreenTransitionIT {
   }
 
   @Test
-  public void testUpdateProfile() {
+  void testUpdateProfile() {
     // Open the home page
     open("/");
     assertThat(title()).isEqualTo("JPetStore Demo");
@@ -175,7 +180,7 @@ public class ScreenTransitionIT {
   }
 
   @Test
-  public void testRegistrationUser() {
+  void testRegistrationUser() {
     // Open the home page
     open("/");
     assertThat(title()).isEqualTo("JPetStore Demo");
@@ -224,7 +229,7 @@ public class ScreenTransitionIT {
   }
 
   @Test
-  public void testSelectItems() {
+  void testSelectItems() {
     // Open the home page
     open("/");
     assertThat(title()).isEqualTo("JPetStore Demo");
@@ -260,7 +265,7 @@ public class ScreenTransitionIT {
   }
 
   @Test
-  public void testViewCart() {
+  void testViewCart() {
 
     // Open the home page
     open("/");
@@ -277,7 +282,7 @@ public class ScreenTransitionIT {
   }
 
   @Test
-  public void testViewHelp() {
+  void testViewHelp() {
 
     // Open the home page
     open("/");
@@ -294,7 +299,7 @@ public class ScreenTransitionIT {
   }
 
   @Test
-  public void testSidebarContentOnTopPage() {
+  void testSidebarContentOnTopPage() {
     // Open the home page
     open("/");
     assertThat(title()).isEqualTo("JPetStore Demo");
@@ -330,7 +335,7 @@ public class ScreenTransitionIT {
   }
 
   @Test
-  public void testQuickLinks() {
+  void testQuickLinks() {
     // Open the home page
     open("/");
     assertThat(title()).isEqualTo("JPetStore Demo");
@@ -361,7 +366,7 @@ public class ScreenTransitionIT {
   }
 
   @Test
-  public void testMainImageContentOnTopPage() {
+  void testMainImageContentOnTopPage() {
     // Open the home page
     open("/");
     assertThat(title()).isEqualTo("JPetStore Demo");
@@ -402,7 +407,7 @@ public class ScreenTransitionIT {
   }
 
   @Test
-  public void testLogoContent() {
+  void testLogoContent() {
     // Open the home page
     open("/");
     assertThat(title()).isEqualTo("JPetStore Demo");

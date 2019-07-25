@@ -1,5 +1,5 @@
 /**
- *    Copyright 2010-2017 the original author or authors.
+ *    Copyright 2010-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -33,8 +33,8 @@ public class Cart implements Serializable {
 
   private static final long serialVersionUID = 8329559983943337176L;
 
-  private final Map<String, CartItem> itemMap = Collections.synchronizedMap(new HashMap<String, CartItem>());
-  private final List<CartItem> itemList = new ArrayList<CartItem>();
+  private final Map<String, CartItem> itemMap = Collections.synchronizedMap(new HashMap<>());
+  private final List<CartItem> itemList = new ArrayList<>();
 
   public Iterator<CartItem> getCartItems() {
     return itemList.iterator();
@@ -59,8 +59,10 @@ public class Cart implements Serializable {
   /**
    * Adds the item.
    *
-   * @param item the item
-   * @param isInStock the is in stock
+   * @param item
+   *          the item
+   * @param isInStock
+   *          the is in stock
    */
   public void addItem(Item item, boolean isInStock) {
     CartItem cartItem = itemMap.get(item.getItemId());
@@ -78,7 +80,8 @@ public class Cart implements Serializable {
   /**
    * Removes the item by id.
    *
-   * @param itemId the item id
+   * @param itemId
+   *          the item id
    * @return the item
    */
   public Item removeItemById(String itemId) {
@@ -94,7 +97,8 @@ public class Cart implements Serializable {
   /**
    * Increment quantity by item id.
    *
-   * @param itemId the item id
+   * @param itemId
+   *          the item id
    */
   public void incrementQuantityByItemId(String itemId) {
     CartItem cartItem = itemMap.get(itemId);
@@ -112,16 +116,9 @@ public class Cart implements Serializable {
    * @return the sub total
    */
   public BigDecimal getSubTotal() {
-    BigDecimal subTotal = new BigDecimal("0");
-    Iterator<CartItem> items = getAllCartItems();
-    while (items.hasNext()) {
-      CartItem cartItem = items.next();
-      Item item = cartItem.getItem();
-      BigDecimal listPrice = item.getListPrice();
-      BigDecimal quantity = new BigDecimal(String.valueOf(cartItem.getQuantity()));
-      subTotal = subTotal.add(listPrice.multiply(quantity));
-    }
-    return subTotal;
+    return itemList.stream()
+        .map(cartItem -> cartItem.getItem().getListPrice().multiply(new BigDecimal(cartItem.getQuantity())))
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
   }
 
 }

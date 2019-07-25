@@ -1,19 +1,12 @@
 language: java
-sudo: false
 
 jdk:
   - oraclejdk11
-  - openjdk11
-  - openjdk10
   - oraclejdk8
-  - openjdk8
-  - openjdk7
 
 cache:
   directories:
     - "$HOME/.m2"
-
-install: true
 
 before_script:
   - export CARGO_MAVEN_PLUGIN_VERSION=`mvn -B help:evaluate -Dexpression=cargo-maven2-plugin.version | grep -v '^\['`
@@ -22,7 +15,7 @@ before_script:
 
 script:
   - |
-    if [ "${TRAVIS_JDK_VERSION}" != "openjdk7" ]; then
+    if [ "${TRAVIS_JDK_VERSION}" != "oraclejdk8" ]; then
       ./mvnw -U clean verify cargo:daemon-start -P tomcat90
       ./mvnw -U test -P itest
     else

@@ -3,12 +3,11 @@ MyBatis JPetStore
 
 [![Build Status](https://travis-ci.org/mybatis/jpetstore-6.svg?branch=master)](https://travis-ci.org/mybatis/jpetstore-6)
 [![Coverage Status](https://coveralls.io/repos/github/mybatis/jpetstore-6/badge.svg?branch=master)](https://coveralls.io/github/mybatis/jpetstore-6?branch=master)
-[![Dependency Status](https://www.versioneye.com/user/projects/5619aafaa193340f320005fe/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5619aafaa193340f320005fe)
 [![License](http://img.shields.io/:license-apache-brightgreen.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 ![mybatis-jpetstore](http://mybatis.github.io/images/mybatis-logo.png)
 
-JPetStore 6 is a full web application built on top of MyBatis 3, Spring 4 and Stripes.
+JPetStore 6 is a full web application built on top of MyBatis 3, Spring 5 and Stripes.
 
 Essentials
 ----------
@@ -52,6 +51,7 @@ Running JPetStore sample under Tomcat (using the [cargo-maven2-plugin](https://c
   > | tomcat90       | Running under the Tomcat 9.0 |
   > | tomcat85       | Running under the Tomcat 8.5 |
   > | tomcat70       | Running under the Tomcat 7.0 |
+  > | tomee80        | Running under the TomEE 8.0(Java EE 8) *Milestone version|
   > | tomee71        | Running under the TomEE 7.1(Java EE 8) |
   > | tomee70        | Running under the TomEE 7.0(Java EE 7) |
   > | wildfly14      | Running under the WildFly 14(Java EE 8) |

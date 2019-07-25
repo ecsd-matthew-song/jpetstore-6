@@ -1,5 +1,5 @@
 /**
- *    Copyright 2010-2017 the original author or authors.
+ *    Copyright 2010-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package org.mybatis.jpetstore.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Optional;
 
 /**
  * The Class LineItem.
@@ -41,8 +42,10 @@ public class LineItem implements Serializable {
   /**
    * Instantiates a new line item.
    *
-   * @param lineNumber the line number
-   * @param cartItem the cart item
+   * @param lineNumber
+   *          the line number
+   * @param cartItem
+   *          the cart item
    */
   public LineItem(int lineNumber, CartItem cartItem) {
     this.lineNumber = lineNumber;
@@ -50,6 +53,7 @@ public class LineItem implements Serializable {
     this.itemId = cartItem.getItem().getItemId();
     this.unitPrice = cartItem.getItem().getListPrice();
     this.item = cartItem.getItem();
+    calculateTotal();
   }
 
   public int getOrderId() {
@@ -107,11 +111,8 @@ public class LineItem implements Serializable {
   }
 
   private void calculateTotal() {
-    if (item != null && item.getListPrice() != null) {
-      total = item.getListPrice().multiply(new BigDecimal(quantity));
-    } else {
-      total = null;
-    }
+    total = Optional.ofNullable(item).map(Item::getListPrice).map(v -> v.multiply(new BigDecimal(quantity)))
+        .orElse(null);
   }
 
 }

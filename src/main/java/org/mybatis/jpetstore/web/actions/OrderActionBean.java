@@ -1,5 +1,5 @@
 /**
- *    Copyright 2010-2017 the original author or authors.
+ *    Copyright 2010-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package org.mybatis.jpetstore.web.actions;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -56,11 +56,7 @@ public class OrderActionBean extends AbstractActionBean {
   private List<Order> orderList;
 
   static {
-    List<String> cardList = new ArrayList<String>();
-    cardList.add("Visa");
-    cardList.add("MasterCard");
-    cardList.add("American Express");
-    CARD_TYPE_LIST = Collections.unmodifiableList(cardList);
+    CARD_TYPE_LIST = Collections.unmodifiableList(Arrays.asList("Visa", "MasterCard", "American Express"));
   }
 
   public int getOrderId() {

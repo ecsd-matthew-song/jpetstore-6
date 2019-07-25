@@ -1,5 +1,5 @@
 /**
- *    Copyright 2010-2017 the original author or authors.
+ *    Copyright 2010-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -17,9 +17,10 @@ package org.mybatis.jpetstore.service;
 
 import org.mybatis.jpetstore.domain.Account;
 import org.mybatis.jpetstore.mapper.AccountMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 /**
  * The Class AccountService.
@@ -29,8 +30,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AccountService {
 
-  @Autowired
-  private AccountMapper accountMapper;
+  private final AccountMapper accountMapper;
+
+  public AccountService(AccountMapper accountMapper) {
+    this.accountMapper = accountMapper;
+  }
 
   public Account getAccount(String username) {
     return accountMapper.getAccountByUsername(username);
@@ -43,7 +47,8 @@ public class AccountService {
   /**
    * Insert account.
    *
-   * @param account the account
+   * @param account
+   *          the account
    */
   @Transactional
   public void insertAccount(Account account) {
@@ -55,16 +60,16 @@ public class AccountService {
   /**
    * Update account.
    *
-   * @param account the account
+   * @param account
+   *          the account
    */
   @Transactional
   public void updateAccount(Account account) {
     accountMapper.updateAccount(account);
     accountMapper.updateProfile(account);
 
-    if (account.getPassword() != null && account.getPassword().length() > 0) {
-      accountMapper.updateSignon(account);
-    }
+    Optional.ofNullable(account.getPassword()).filter(password -> password.length() > 0)
+        .ifPresent(password -> accountMapper.updateSignon(account));
   }
 
 }

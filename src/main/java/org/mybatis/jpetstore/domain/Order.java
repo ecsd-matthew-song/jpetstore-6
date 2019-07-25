@@ -1,5 +1,5 @@
 /**
- *    Copyright 2010-2017 the original author or authors.
+ *    Copyright 2010-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ public class Order implements Serializable {
   private String cardType;
   private String locale;
   private String status;
-  private List<LineItem> lineItems = new ArrayList<LineItem>();
+  private List<LineItem> lineItems = new ArrayList<>();
 
   public int getOrderId() {
     return orderId;
@@ -278,8 +278,10 @@ public class Order implements Serializable {
   /**
    * Inits the order.
    *
-   * @param account the account
-   * @param cart the cart
+   * @param account
+   *          the account
+   * @param cart
+   *          the cart
    */
   public void initOrder(Account account, Cart cart) {
 
